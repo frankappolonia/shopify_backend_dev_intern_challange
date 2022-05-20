@@ -1,5 +1,15 @@
 
 <h1>Product ID: {{{itemData._id}}}</h1>
-<h2>Name: {{{itemData.name}}}</h2>
-<p>Current Quantity: {{{itemData.quantity}}}</p>
-<p>Current Price Per Item: {{{itemData.price}}}</p>
+<section id="product-container">
+    <dl>
+        <dt>Name: </dt>
+        <dd id="name">{{{itemData.name}}}</dd>
+        <dt>Quantity: </dt>
+        <dd id="quantity">{{{itemData.quantity}}}</dd>
+        <dt>Price Per Item: </dt>
+        <dd id="price">{{{itemData.price}}}</dd>
+    </dl>
+    <button id="editBt" type="submit">Update Item</button>
+    <button id="deleteBt" type="submit">Delete Item</button>
+</section>
+<div id="error"></div>
