@@ -69,14 +69,15 @@ async function submitShipment(order){
     for (let orderItem of order){
     
             let inventoryItem = await checkQuantity(orderItem)
-            orderItem.quantity = inventoryItem.quantity - orderItem.quantity
+            orderItem.newQuantity = inventoryItem.quantity - orderItem.quantity
       
         };
 
 
     //3. adjust inventory to account for shipment
     async function updateQuantity(orderItem){
-        await inventoryFuncs.updateItem(orderItem._id, orderItem.name, orderItem.quantity, orderItem.price);
+        await inventoryFuncs.updateItem(orderItem._id, orderItem.name, orderItem.newQuantity, orderItem.price);
+        delete orderItem.newQuantity
     };
 
     

@@ -72,7 +72,7 @@ function editItemHandler(btn) {
         //4. send AJAX request to server
         $.ajax({
             method: "PUT",
-            url: `/${itemId}`,
+            url: `/item/${itemId}`,
             contentType: 'application/json',
             data: JSON.stringify({
             name: name,
