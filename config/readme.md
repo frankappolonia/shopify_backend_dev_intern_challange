@@ -1,0 +1,1 @@
+This folder contains all of the mongoDB configuration required for this application
