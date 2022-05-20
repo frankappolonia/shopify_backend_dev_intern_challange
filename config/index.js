@@ -1,5 +1,5 @@
-const collections = require('./mongoCollections')
-const mongoConnection = require('./mongoConnection')
+const collections = require('./mongoCollections');
+const mongoConnection = require('./mongoConnection');
 
 /**This exports the mongo collections and connection capibility to be used in other
  * modules of this application.
