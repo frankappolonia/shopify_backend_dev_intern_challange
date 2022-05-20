@@ -1,1 +1,14 @@
 <p>I am the main page</p>
+
+{{#if inventoryData}}
+        <ul id="inventory_results">
+            {{#each inventoryData}}
+            <li>
+                <a href="/show/{{this._id}}">{{this.name}} </a>
+            </li>
+            {{/each}}
+        </ul>
+
+        {{else}}
+        <p class="inventory-not-found">We're sorry, but the inventory is empty. Please add items.</p>
+    {{/if}}

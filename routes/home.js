@@ -9,8 +9,8 @@ const xss = require('xss');
 router.route("/") //this is the main route for the application landing page
     .get(async (request, response) => { //GET route populates page with full inventory list
         try {
-            let allItems = await inventoryFuncs.getAllItems();
-            response.status(200).render("pages/home", allItems);
+            let data = await inventoryFuncs.getAllItems();
+            response.status(200).render("pages/home", {inventoryData: data});
         } catch (e) {
             console.log(e);
             response.status(404).render("errors/404");
