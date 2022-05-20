@@ -1,0 +1,19 @@
+{
+  "name": "shopify_backend_dev_intern_challange",
+  "version": "1.0.0",
+  "description": "Shopify Backend intern challenge for Fall 2022",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frankappolonia/shopify_backend_dev_intern_challange.git"
+  },
+  "author": "Frank Appolonia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frankappolonia/shopify_backend_dev_intern_challange/issues"
+  },
+  "homepage": "https://github.com/frankappolonia/shopify_backend_dev_intern_challange#readme"
+}
