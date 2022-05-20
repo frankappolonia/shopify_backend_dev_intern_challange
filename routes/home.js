@@ -16,7 +16,7 @@ router.route("/") //this is the main route for the application landing page
             response.status(200).render("pages/home", {inventoryData: data});
         } catch (e) {
             console.log(e);
-            response.status(404).render("errors/404");
+            response.status(404).render("errors/404", {error: e});
         };
     })
     .post(async (request, response) => {
@@ -34,7 +34,7 @@ router.route("/") //this is the main route for the application landing page
 
         } catch (e) {
             console.log(e);
-            response.status(404).render("errors/404");
+            response.status(404).render("errors/404", {error: e});
         };
     });
 
@@ -51,7 +51,7 @@ router.route("/:id") //this is the route for specific items in the inventory
         };
 
         try {
-            //2. get data 
+            //2. get item from inventory collection 
             let data = await inventoryFuncs.getItem(itemId);
 
             //3. send response with data
@@ -59,9 +59,8 @@ router.route("/:id") //this is the route for specific items in the inventory
 
         } catch (e) {
             console.log(e);
-            response.status(404).render("errors/404");
+            response.status(404).render("errors/404", {error: e});
             return
-            
         };
     })
   module.exports = router;

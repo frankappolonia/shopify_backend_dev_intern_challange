@@ -127,20 +127,15 @@ async function getAllItems(){
 
     if (allItems.length === 0) return [];
 
-    //4. return the array of items
+    //4. format each item document's objectID to a regular string (this is for when the data is sent in the get route)
+    allItems.forEach(itemObj =>{ 
+        itemObj['_id'] = itemObj["_id"].toString()
+    });
+
+    //5. return the array of items
     return allItems;
 
 };
-
-async function test(){
-    try{
-        let id = await createItem("test", 3, 2.00)
-        console.log(id)
-    }catch(e){
-        console.log(e)
-    }
-}
-//test()
 
 module.exports = {
     createItem,
