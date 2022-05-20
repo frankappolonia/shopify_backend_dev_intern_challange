@@ -113,16 +113,16 @@ function deleteButtonClick(btn) {
       event.preventDefault()
       $.ajax({
         method: "DELETE",
-        url: `/forum/${itemId}`,
+        url: `/${itemId}`,
         success: (response)=>{
             $('#product-container').empty()
             $('#error').empty()
-            $('#product-container').append('<p>Item deleted successfully from inventory.</p>')
+            $('#product-container').append(`<p>${response}</p>`)
         },
         error: (response)=>{
          console.log('unsuccsessful deletion')
          $('#error').empty()
-          $('#error').append("Error: " + response)
+          $('#error').append("Error: " + response.responseText)
 
             }
         })

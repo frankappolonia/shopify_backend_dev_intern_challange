@@ -75,14 +75,33 @@ router.route("/:id") //this is the route for specific items in the inventory
             //2. sanitize input data to prevent XSS attacks and query database
             let updatedItem = await inventoryFuncs.updateItem(xss(itemId), xss(formData.name), xss(formData.quantity), xss(formData.price));
 
-            //3. respond with updated item data
+            //3. respond with updated item data for ajax request
             response.status(200).json(updatedItem)
 
         } catch (e) {
             console.log(e);
-            response.status(400).render("errors/invalidItem", {error: e});
+            response.status(400).send(e);
             return
         };
 
     })
+    .delete(async (request, response) =>{
+        try {
+            //1. validate id
+            let itemId = validations.checkId(request.params.id);
+
+            //2. query dabatase for deletion
+            let deleteItem = await inventoryFuncs.deleteItem(itemId);
+
+            //3. send the data for the ajax request
+            response.status(200).send(deleteItem);
+            
+        } catch (e) {
+            console.log(e);
+            response.status(400).send(e);
+            return
+        };
+
+    });
+    
   module.exports = router;
