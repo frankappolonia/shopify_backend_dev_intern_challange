@@ -26,7 +26,7 @@ router.route("/") //this is the main route for the application landing page
             validations.validatePostRoute(formData);
 
             //2. sanitize input data to prevent XSS attacks and query database
-            inventoryFuncs.createItem(xss(formData.name), xss(formData.quantity), xss(formData.price));
+            await inventoryFuncs.createItem(xss(formData.name), xss(formData.quantity), xss(formData.price));
 
             //3. reload page
             response.status(200).redirect('/');
@@ -46,7 +46,7 @@ router.route("/:id") //this is the route for specific items in the inventory
             validations.checkId(itemId);
         } catch (e) {
             console.log(e);
-            response.status(400).render("errors/invalidItem");
+            response.status(400).render("errors/invalidItem", {error: e});
             return
         };
 
@@ -55,12 +55,34 @@ router.route("/:id") //this is the route for specific items in the inventory
             let data = await inventoryFuncs.getItem(itemId);
 
             //3. send response with data
-            response.status(200).render("pages/itemPage", {itemData: data});
+            response.status(200).render("pages/itemPage", {itemData: data, script: '/public/js/itemPage.js'});
 
         } catch (e) {
             console.log(e);
             response.status(404).render("errors/404", {error: e});
             return
         };
+    })
+    .put(async (request, response) =>{
+        let itemId = request.params.id.trim();
+        let formData = request.body;
+
+        try {
+            //1. validate form data and id
+            validations.checkId(itemId);
+            validations.validatePostRoute(formData);
+
+            //2. sanitize input data to prevent XSS attacks and query database
+            let updatedItem = await inventoryFuncs.updateItem(xss(itemId), xss(formData.name), xss(formData.quantity), xss(formData.price));
+
+            //3. respond with updated item data
+            response.status(200).json(updatedItem)
+
+        } catch (e) {
+            console.log(e);
+            response.status(400).render("errors/invalidItem", {error: e});
+            return
+        };
+
     })
   module.exports = router;

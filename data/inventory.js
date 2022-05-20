@@ -50,14 +50,14 @@ async function updateItem(itemId, name, quantity, price){
     //4. create inventory object with updated info
     let newItem = {
         name: name.trim(),
-        quantity: parseInt(currentQuantity),
+        quantity: parseInt(quantity),
         price: parseFloat(price).toFixed(2) //rounds to 2 decimal places
     };
 
     //5. Update the item in the db
     const update = await inventoryCollection.updateOne(
     { _id: ObjectId(itemId) }, 
-    {$set: {newItem}});
+    {$set: newItem});
 
     if (update["modifiedCount" === 0]) throw "Error! Could not update inventory item!";
 

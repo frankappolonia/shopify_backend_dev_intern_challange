@@ -1,10 +1,14 @@
-let editButton = $('#editBt');
-let deleteButton = $('#deleteBt');
+let url = window.location.href
 let itemId = url.substring(url.lastIndexOf('/')+1) //https://stackoverflow.com/questions/3730359/get-id-from-url-with-jquery
 
-
+let editButton = $('<button id="editBt" type="submit">Update Item</button>');
+let deleteButton = $('<button id="deleteBt" type="submit">Delete Item</button>');
 editButtonClick(editButton);
 deleteButtonClick(deleteButton);
+
+$('#product-container').append(editButton)
+$('#product-container').append(deleteButton)
+
 
 
 function editButtonClick(btn){
@@ -52,7 +56,7 @@ function editItemHandler(btn) {
       try{
           //validate input here
         $.ajax({
-            method: "PATCH",
+            method: "PUT",
             url: `/${itemId}`,
             contentType: 'application/json',
             data: JSON.stringify({
@@ -75,8 +79,8 @@ function editItemHandler(btn) {
                 $('#product-container').empty()
                 $('#product-container').append(editedPostHtml)
 
-                let deleteButton2 = $('<button id="editBt" type="submit">Update Item</button>')
-                let editButton2 = $('<button id="deleteBt" type="submit">Delete Item</button>')
+                let editButton2 = $('<button id="editBt" type="submit">Update Item</button>')
+                let deleteButton2 = $('<button id="deleteBt" type="submit">Delete Item</button>')
 
                 editButtonClick(editButton2)
                 deleteButtonClick(deleteButton2)
@@ -87,8 +91,9 @@ function editItemHandler(btn) {
             },
             error: (response)=>{
             console.log(response)
-            $('#error').empty()
-            $('#error').append("Error: " + response.responseText)
+            $('#product-container').empty();
+            $('#error').empty();
+            $('#error').append("Error: " + response.responseText);
                 }
             });
 
