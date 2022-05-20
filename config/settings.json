@@ -1,0 +1,7 @@
+{
+    "mongoConfig": {
+      "serverUrl": "mongodb+srv://test:password123@cluster0.op0hb.mongodb.net/?retryWrites=true&w=majority",
+      "database": "Shopify_Backend_Intern_Challenge_Fall2022"
+    }
+  }
+  
