@@ -1,1 +1,1 @@
-This folder contains all of the database functions for the application
+This module contains all of the database functions for the application
