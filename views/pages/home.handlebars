@@ -1,14 +1,28 @@
-<p>I am the main page</p>
+<h1>Inventory Home</h1>
 
+<h2>Add new item to the inventory</h2>
+<form method="post" id="new-item-form">
+        <label for="search">Item name: </label>
+        <input type="text" id="name" name="name" required>
+        <label for="quantity">Price: </label>
+        <input type="number" id="price" name="price" step=".01" min="1" required>
+        <label for="quanity">Initital Quantity: </label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+        <Button type="submit">Add Item</Button>
+</form>
+
+
+<h2>Current Inventory List:</h2>
 {{#if inventoryData}}
-        <ul id="inventory_results">
+<p>Click an item in the inventory to view pricing and quanity, or to update/delete the item.</p>
+        <ol id="inventory_results">
             {{#each inventoryData}}
             <li>
                 <a href="/show/{{this._id}}">{{this.name}} </a>
             </li>
             {{/each}}
-        </ul>
-
+        </ol>
         {{else}}
         <p class="inventory-not-found">We're sorry, but the inventory is empty. Please add items.</p>
-    {{/if}}
+{{/if}}
+
