@@ -4,6 +4,8 @@ const validations = errorHandling.validations
 const { ObjectId } = require('mongodb');
 const inventory = db.inventoryCollection;
 
+/**Databse functions for the inventory collection */
+
 async function createItem(name, currentQuantity, price){
     /**This function is for creating/adding a new item document to the inventory collection */
 
@@ -137,10 +139,12 @@ async function getAllItems(){
 
 };
 
+
+
 module.exports = {
     createItem,
     updateItem,
     deleteItem,
     getItem,
-    getAllItems
+    getAllItems,
 };

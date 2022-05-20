@@ -6,6 +6,7 @@ const mongoConnection = require('./mongoConnection');
  */
 module.exports = {
     inventoryCollection: collections.inventory,
+    shipmentsCollection: collections.shipments,
     connection: mongoConnection
 
 };

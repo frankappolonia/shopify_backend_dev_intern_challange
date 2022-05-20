@@ -38,7 +38,7 @@ router.route("/") //this is the main route for the application landing page
         };
     });
 
-router.route("/:id") //this is the route for specific items in the inventory
+router.route("/item/:id") //this is the route for specific items in the inventory
     .get(async (request, response) => { //GET route populates page with data from specfic item in inventory
         let itemId = request.params.id.trim();
         try {
@@ -103,5 +103,5 @@ router.route("/:id") //this is the route for specific items in the inventory
         };
 
     });
-    
+
   module.exports = router;

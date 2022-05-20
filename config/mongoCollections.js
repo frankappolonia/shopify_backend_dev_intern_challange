@@ -17,4 +17,5 @@ const getCollectionFn = (collection) => {
 /*collections reference:*/
 module.exports = {
   inventory: getCollectionFn('inventory'),
+  shipments: getCollectionFn('shipments'),
 };

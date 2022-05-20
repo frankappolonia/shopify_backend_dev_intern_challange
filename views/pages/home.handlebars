@@ -11,6 +11,9 @@
         <Button type="submit">Add Item</Button>
 </form>
 
+<h2>New Shipment</h2>
+<a href="/createShipment">Create New Shipment</a>
+
 
 <h2>Current Inventory List:</h2>
 {{#if inventoryData}}
@@ -18,7 +21,7 @@
         <ol id="inventory_results">
             {{#each inventoryData}}
             <li>
-                <a href="/{{this._id}}">{{this.name}} </a>
+                <a href="/item/{{this._id}}">{{this.name}} </a>
             </li>
             {{/each}}
         </ol>
