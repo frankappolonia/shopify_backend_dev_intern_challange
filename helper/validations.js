@@ -43,12 +43,21 @@ function validateItem(name, quantity, price){
   checkPrice(price);
 };
 
+function validatePostRoute(requestBody){
+  //same error checking as validate item except has extra error handling for post route
+  if (! requestBody.name) throw "No item name given!";
+  if (! requestBody.quantity) throw "No quantity given!";
+  if (! requestBody.price) throw "No price given!";
+
+  validateItem(requestBody.name, requestBody.quantity, requestBody.price);
+};
+
 
   module.exports = {
       checkId,
       checkQuantity,
       checkPrice,
       checkName,
-      validateItem
-
+      validateItem,
+      validatePostRoute
   };
