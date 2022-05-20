@@ -14,7 +14,7 @@ function checkId(id) {
 function checkQuantity(quantity){
     if (arguments.length !== 1) throw "invalid number of arguments for quantity validation";
     if (isNaN(parseInt(quantity))) throw "Quantity must be a number!";
-    if (quantity%1 == 0) throw "Quantity must be a whole number!";
+    if (quantity%1 !== 0) throw "Quantity must be a whole number!";
     quantity = parseInt(quantity);
     if (typeof(quantity) !== 'number') throw "Quantity must be a number!";
     if (quantity < 0) throw "Quantity cannot be less than 0!";

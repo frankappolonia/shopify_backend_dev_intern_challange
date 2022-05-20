@@ -4,10 +4,10 @@ const app = express();
 
 //Routing and html templating
 const configRoutes = require('./routes');
-const middlewareWrapper = require('./middleware')
+const middlewareWrapper = require('./middleware');
 
 //middleware wrapper function for app-level middleware (express, express-session, handlebars, etc)
-middlewareWrapper(app)
+middlewareWrapper(app);
 
 //Routing middleware wrapper function
 configRoutes(app);
