@@ -1,0 +1,14 @@
+<h1>Shipment History</h1>
+<h2>All Past Shipments</h2>
+{{#if shipmentData}}
+<p>Click a shipment to view the order details.</p>
+        <ol id="inventory_results">
+            {{#each shipmentData}}
+            <li>
+                <a href="/shipments/orders/{{this._id}}">{{this._id}}</a>
+            </li>
+            {{/each}}
+        </ol>
+        {{else}}
+        <p class="inventory-not-found">We're sorry, but there are no past shipments found.</p>
+{{/if}}

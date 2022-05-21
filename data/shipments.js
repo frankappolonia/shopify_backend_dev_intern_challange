@@ -1,8 +1,10 @@
+const req = require('express/lib/request');
 const db = require('../config');
 const errorHandling = require('../helper');
 const inventoryFuncs = require('./inventory');
 const validations = errorHandling.validations
 const shipments = db.shipmentsCollection;
+const { ObjectId } = require('mongodb');
 
 
 async function createShipment(order){
@@ -55,13 +57,14 @@ async function submitShipment(order){
      * fulfill the order, and then updates inventory collection accordingly.
      * 
      * order is an array of objects, which have the following structure:
-     * {_id: id, name: name, quantity: quantity, price: price} */
+     * {_id: id, quantity: quantity, price: price} */
 
     //1. validate input
     if (arguments.length !== 1) throw "Invalid number of arguments for submit shipment!"
     order = validations.validateCreateShipment(order);
 
     //2. check that there is sufficient quantity for each item
+    console.log(order)
     for (let orderItem of order){
         let inventoryItem = await inventoryFuncs.getItem(orderItem._id);
         if (inventoryItem === null) throw "Error! That item does not exist in the inventory!";
@@ -69,6 +72,7 @@ async function submitShipment(order){
         if(orderItem.quantity > inventoryItem.quantity){
             throw `Error! Shipment quantity for ${orderItem.name} exceeds available quantity in current inventory!`;
         }
+        orderItem.name = inventoryItem.name;
         orderItem.newQuantity = inventoryItem.quantity - orderItem.quantity; //temp variable to store the updated inventory quantity
     };
 
@@ -78,29 +82,58 @@ async function submitShipment(order){
         await inventoryFuncs.updateItem(orderItem._id, orderItem.name, orderItem.newQuantity, orderItem.price);
         delete orderItem.newQuantity; //remove the temp variable after updating inventory quantity
     };
-
     return
 
 };
 
-async function test(){
-    try {
-        let o1 = {
-            _id: "62881b73b40bd65da9f54ec6",
-            name: "bagels",
-            quantity: 50,
-            price: 2,
-        }
-        await createShipment([o1]);
-        
-    } catch (error) {
-        console.log(error)
-    }
-}
+async function getAllShipments(){
+    /**This function returns an array of ALL shipment documents from the shipments collection */
 
-test()
+    //1. Validate Input
+    if (arguments.length !== 0) throw "getAllShipments takes no arguments!!";
+
+    //2. establish db connection
+    const shipmentsCollection = await shipments();
+
+    //3. Query the item from the inventory db
+    const allShipments = await shipmentsCollection.find({}).toArray();
+    if(! allShipments) throw "Error! Could not fetch all shipments from the inventory db!";
+
+    if (allShipments.length === 0) return [];
+
+    //4. format each item document's objectID to a regular string (this is for when the data is sent in the get route)
+    allShipments.forEach(itemObj =>{ 
+        itemObj['_id'] = itemObj["_id"].toString()
+    });
+
+    //5. return the array of items
+    return allShipments;
+
+};
+
+async function getShipment(itemId){
+    /**This function returns ONE shipment document from the shipment collection */
+
+    //1. Validate Input
+    if (arguments.length !== 1) throw "Invalid number of arguments for getShipment!";
+    itemId = validations.checkId(itemId);
+
+    //2. establish db connection
+    const shipmentsCollection = await shipments();
+
+    //3. Query the shipment from the inventory db
+    const shipment = await shipmentsCollection.findOne({ _id: ObjectId(itemId) });
+    if (!shipment) throw 'No shipment found with that id in the inventory!';
+
+    //4. return the user
+    return shipment;
+
+};
+
 module.exports = {
     createShipment,
-    submitShipment
+    submitShipment,
+    getAllShipments,
+    getShipment
 };
 

@@ -1,0 +1,28 @@
+<a href="/shipments/orders">Back to all shipments</a>
+<h1>Shipment ID: {{{shipmentData._id}}}</h1>
+<section id="product-container">
+    <dl>
+        <dt>Date: </dt>
+        <dd id="name">{{{shipmentData.date}}}</dd>
+        <dt>Total Cost: </dt>
+        <dd id="quantity">$ {{{shipmentData.totalCost}}}</dd>
+        <dt>Order Breakdown: </dt>
+        <dd>
+            <ol>
+            {{#each shipmentData.order}}
+            <li>
+                <ul>
+                    <li>Item Name: {{this.name}}</li>
+                    <li>Item ID: {{this._id}}</li>
+                    <li>Quantity: {{this.quantity}}</li>
+                    <li>Price: $ {{this.price}}</li>
+                    <li>Subtotal: {{this.subtotal}}</li>
+                </ul>
+            </li>
+            {{/each}}
+            </ol>
+        </dd>
+    </dl>
+  
+</section>
+<div id="error"></div>

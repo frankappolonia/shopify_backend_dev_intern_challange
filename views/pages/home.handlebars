@@ -2,7 +2,7 @@
 
 <h2>Add new item to the inventory</h2>
 <form method="post" id="new-item-form">
-        <label for="search">Item name: </label>
+        <label for="name">Item name: </label>
         <input type="text" id="name" name="name" required>
         <label for="quantity">Price: </label>
         <input type="number" id="price" name="price" step=".01" min="1" required>
@@ -10,10 +10,6 @@
         <input type="number" id="quantity" name="quantity" min="1" required>
         <Button type="submit">Add Item</Button>
 </form>
-
-<h2>New Shipment</h2>
-<a href="/createShipment">Create New Shipment</a>
-
 
 <h2>Current Inventory List:</h2>
 {{#if inventoryData}}

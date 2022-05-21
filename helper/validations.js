@@ -52,17 +52,24 @@ function validatePostRoute(requestBody){
   validateItem(requestBody.name, requestBody.quantity, requestBody.price);
 };
 
+function validateShipmentPost(requestBody){
+  requestBody.forEach(obj =>{
+    if(Object.keys(obj).length !== 3) throw "Invalid order format!"
+    if(! obj._id) throw "No id given!"
+    if(! obj.price) throw "No price given!"
+    if (!obj.quantity) throw "No quantity given!"
+  })
+}
+
 function validateCreateShipment(order){
   if(!(Array.isArray(order))) throw "Order must be an array!";
   if(order.length === 0) throw "Orders must have at least one item!";
   order.forEach(itemObj =>{
     if(itemObj.constructor !== Object) throw "Every element of the order array must be an object!";
     if(itemObj._id === null || itemObj._id === undefined) throw "Every product must have an id!";
-    if(itemObj.name === null || itemObj.name === undefined) throw "Every product must have a name!";
     if(itemObj.quantity === null || itemObj.quantity === undefined) throw "Every product must have a quantity!";
     if(itemObj.price === null || itemObj.price === undefined) throw "Every product must have a price!";
     itemObj._id = checkId(itemObj._id);
-    checkName(itemObj.name);
     checkQuantity(itemObj.quantity);
     checkPrice(itemObj.price);
     itemObj.quantity = parseInt(itemObj.quantity)
@@ -79,5 +86,6 @@ function validateCreateShipment(order){
       checkName,
       validateItem,
       validatePostRoute,
-      validateCreateShipment
+      validateCreateShipment,
+      validateShipmentPost
   };
