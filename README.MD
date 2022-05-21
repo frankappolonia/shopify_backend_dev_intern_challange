@@ -21,3 +21,5 @@ packages.
         The main shipment page displays a list of the current inventory and available quantities, as well as a form to create a shipment. To create a shipment, you must fill out every field of the form. For the item id field, you MUST use the 24 character id of the item you wish to add to the shipment. An items corresponding id is located in the inventory table below the create shipment form. Once a shipment is succesfully created, you will be redirected to a shipment summary page.
 
         In addition, there is a page where you can view all past shipments. If you click on one, you will be taken to that shipments specific page, which contains all of its' details.
+
+Note: The databse is hosted on a MongoDB atlas cluster. I can only invite by email, so let me know if you want accces to see the collections (you dont need access to use the application though.)
