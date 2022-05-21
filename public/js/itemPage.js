@@ -135,7 +135,7 @@ function deleteButtonClick(btn) {
       //2. send AJAX request to server
       $.ajax({
         method: "DELETE",
-        url: `/${itemId}`,
+        url: `/item/${itemId}`,
         //3. if successful:
         success: (response)=>{
             //3a. delete html with product info and append response from server
@@ -149,6 +149,7 @@ function deleteButtonClick(btn) {
          //4a. append response error from server to html page
          $('#error').empty();
         $('#error').append("Error: " + response.responseText);
+        console.log(response)
 
             }
         });

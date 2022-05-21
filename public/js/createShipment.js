@@ -65,7 +65,6 @@ function editItemHandler(btn) {
                 //4a. redirect to order page
                 console.log(response)
                 window.location.replace(`/shipments/orders/${response}`);
-
                 
             },
              //5.if unsuccessful:
