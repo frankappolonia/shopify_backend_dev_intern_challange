@@ -15,7 +15,7 @@ async function createShipment(order){
 
     //1. validate input
     if (arguments.length !== 1) throw "Invalid number of arguments for create shipment!";
-    validations.validateCreateShipment(order);
+    order = validations.validateCreateShipment(order);
 
     //2. attempt to submit shipment
     await submitShipment(order);
@@ -59,7 +59,7 @@ async function submitShipment(order){
 
     //1. validate input
     if (arguments.length !== 1) throw "Invalid number of arguments for submit shipment!"
-    validations.validateCreateShipment(order);
+    order = validations.validateCreateShipment(order);
 
     //2. check that there is sufficient quantity for each item
     for (let orderItem of order){

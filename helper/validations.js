@@ -57,15 +57,18 @@ function validateCreateShipment(order){
   if(order.length === 0) throw "Orders must have at least one item!";
   order.forEach(itemObj =>{
     if(itemObj.constructor !== Object) throw "Every element of the order array must be an object!";
-    if(! itemObj._id) throw "Every product must have an id!";
-    if(! itemObj.name) throw "Every product must have a name!";
-    if(! itemObj.quantity) throw "Every product must have a quantity!";
-    if(! itemObj.price) throw "Every product must have a price!";
-    checkId(itemObj._id);
+    if(itemObj._id === null || itemObj._id === undefined) throw "Every product must have an id!";
+    if(itemObj.name === null || itemObj.name === undefined) throw "Every product must have a name!";
+    if(itemObj.quantity === null || itemObj.quantity === undefined) throw "Every product must have a quantity!";
+    if(itemObj.price === null || itemObj.price === undefined) throw "Every product must have a price!";
+    itemObj._id = checkId(itemObj._id);
     checkName(itemObj.name);
     checkQuantity(itemObj.quantity);
     checkPrice(itemObj.price);
+    itemObj.quantity = parseInt(itemObj.quantity)
+    itemObj.price = parseFloat(itemObj.price);
   });
+  return order;
 };
 
 
