@@ -5,7 +5,7 @@ Author: Frank Appolonia
 **
 1. You must first install the node modules dependencies. Type "npm install" in the Replit console to install all
 packages.
-2. OPTIONALLY, you can type "npm seed" in the Replit console to seed the database with some initial data to play with (note that when you run the seed file, it will DELETE any existing data!)
+2. OPTIONALLY, you can type "npm run seed" in the Replit console to seed the database with some initial data to play with (note that when you run the seed file, it will DELETE any existing data!)
 3. Once installed, you can run the app by either typing "npm start" in  the Replit console, or by pressing the
 "play" button in Replit. 
 
