@@ -52,6 +52,22 @@ function validatePostRoute(requestBody){
   validateItem(requestBody.name, requestBody.quantity, requestBody.price);
 };
 
+function validateCreateShipment(order){
+  if(!(Array.isArray(order))) throw "Order must be an array!";
+  if(order.length === 0) throw "Orders must have at least one item!";
+  order.forEach(itemObj =>{
+    if(itemObj.constructor !== Object) throw "Every element of the order array must be an object!";
+    if(! itemObj._id) throw "Every product must have an id!";
+    if(! itemObj.name) throw "Every product must have a name!";
+    if(! itemObj.quantity) throw "Every product must have a quantity!";
+    if(! itemObj.price) throw "Every product must have a price!";
+    checkId(itemObj._id);
+    checkName(itemObj.name);
+    checkQuantity(itemObj.quantity);
+    checkPrice(itemObj.price);
+  });
+};
+
 
   module.exports = {
       checkId,
@@ -59,5 +75,6 @@ function validatePostRoute(requestBody){
       checkPrice,
       checkName,
       validateItem,
-      validatePostRoute
+      validatePostRoute,
+      validateCreateShipment
   };

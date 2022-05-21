@@ -2,7 +2,6 @@ const db = require('../config');
 const errorHandling = require('../helper');
 const inventoryFuncs = require('./inventory');
 const validations = errorHandling.validations
-const { ObjectId } = require('mongodb');
 const shipments = db.shipmentsCollection;
 
 
@@ -15,18 +14,20 @@ async function createShipment(order){
      */
 
     //1. validate input
+    if (arguments.length !== 1) throw "Invalid number of arguments for create shipment!";
+    validations.validateCreateShipment(order);
 
     //2. attempt to submit shipment
-    await submitShipment(order)
+    await submitShipment(order);
 
     //3. upon successful submit, create new shipment object
     //3a. calculate total cost & subtotal cost per item x quantity
     let totalCost = 0;
     let subtotal
     order.forEach(itemObj =>{
-        subtotal = (itemObj.price * itemObj.quantity)
-        totalCost += subtotal
-        itemObj['subtotal'] = subtotal
+        subtotal = (itemObj.price * itemObj.quantity);
+        totalCost += subtotal;
+        itemObj['subtotal'] = subtotal;
     });
 
     //3b. create new shipment object
@@ -41,7 +42,7 @@ async function createShipment(order){
 
     let insertData = await shipmentsCollection.insertOne(newShipment);
     if (insertData.acknowldeged === 0 || !insertData.insertedId === 0){
-        throw 'Could not add shipment!'
+        throw 'Could not add shipment!';
     };
 
     //5. return the newly created objectID as a string
@@ -50,48 +51,37 @@ async function createShipment(order){
 };
 
 async function submitShipment(order){
-    /**Takes a created order  and updates inventory collection accordingly */
+    /**Takes a created order, checks that there is enough inventory to 
+     * fulfill the order, and then updates inventory collection accordingly.
+     * 
+     * order is an array of objects, which have the following structure:
+     * {_id: id, name: name, quantity: quantity, price: price} */
 
     //1. validate input
-
+    if (arguments.length !== 1) throw "Invalid number of arguments for submit shipment!"
+    validations.validateCreateShipment(order);
 
     //2. check that there is sufficient quantity for each item
-    async function checkQuantity(orderItem){
+    for (let orderItem of order){
         let inventoryItem = await inventoryFuncs.getItem(orderItem._id);
         if (inventoryItem === null) throw "Error! That item does not exist in the inventory!";
-
+    
         if(orderItem.quantity > inventoryItem.quantity){
             throw `Error! Shipment quantity for ${orderItem.name} exceeds available quantity in current inventory!`;
-          };
-        return inventoryItem
+        }
+        orderItem.newQuantity = inventoryItem.quantity - orderItem.quantity; //temp variable to store the updated inventory quantity
     };
-
-    for (let orderItem of order){
-    
-            let inventoryItem = await checkQuantity(orderItem)
-            orderItem.newQuantity = inventoryItem.quantity - orderItem.quantity
-      
-        };
 
 
     //3. adjust inventory to account for shipment
-    async function updateQuantity(orderItem){
+    for (let orderItem of order){
         await inventoryFuncs.updateItem(orderItem._id, orderItem.name, orderItem.newQuantity, orderItem.price);
-        delete orderItem.newQuantity
+        delete orderItem.newQuantity; //remove the temp variable after updating inventory quantity
     };
-
-    
-    order.forEach(orderItem =>{
-        try {
-            updateQuantity(orderItem)
-        } catch (error) {
-            return error;
-        };
-    });
 
     return
 
-}
+};
 
 async function test(){
     try {
@@ -112,5 +102,5 @@ test()
 module.exports = {
     createShipment,
     submitShipment
-}
+};
 
