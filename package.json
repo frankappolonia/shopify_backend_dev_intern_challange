@@ -4,7 +4,8 @@
   "description": "Shopify Backend intern challenge for Fall 2022",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "seed": "node ./helper/seed.js"
   },
   "repository": {
     "type": "git",
