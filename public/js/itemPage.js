@@ -72,7 +72,7 @@ function editItemHandler(btn) {
         //4. send AJAX request to server
         $.ajax({
             method: "PUT",
-            url: `/item/${itemId}`,
+            url: `/inventory/item/${itemId}`,
             contentType: 'application/json',
             data: JSON.stringify({
             name: name,
@@ -135,7 +135,7 @@ function deleteButtonClick(btn) {
       //2. send AJAX request to server
       $.ajax({
         method: "DELETE",
-        url: `/item/${itemId}`,
+        url: `/inventory/item/${itemId}`,
         //3. if successful:
         success: (response)=>{
             //3a. delete html with product info and append response from server

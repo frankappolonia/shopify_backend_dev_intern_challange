@@ -13,7 +13,7 @@ router.route("/") //this is the route for the create shipment page
             //1. get data
             let data = await inventoryFuncs.getAllItems();
 
-            //2. send response with data
+            //2. send response with data to populate page
             response.status(200).render("pages/createShipment", {inventoryData: data, script: "/public/js/createShipment.js"});
         } catch (e) {
             response.status(404).render("errors/404", {error: e});
@@ -38,7 +38,7 @@ router.route("/") //this is the route for the create shipment page
 
     });
 
-router.route("/orders/") //this is the route to view all shipment orders
+router.route("/orders") //this is the route to view all past shipment orders
     .get(async (request, response) => { //GET route populates page 
         try {
             //1. get data

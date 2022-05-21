@@ -1,33 +1,38 @@
 let shipmentForm = $('#new-shipment-form');
 let cart = $('#cart');
+let addbt = $('#addItemBt');
 
-let addbt = $('#addItemBt')
 shipmentForm.submit((event =>{
+  //This event handler adds new items to the shipment cart.
+  /**The cart is an html table, and when the user submits the cart an event handler function (below)
+   * will take the items from the table, and submit an ajax request to the server
+   * */
     event.preventDefault();
     let _id = $('#_id').val();
     let quantity = $('#quantity').val();
     let price = $('#price').val();
-    //validatons
 
-    let item = $(
+    //client side validations go here
+
+    let item = $( //new item that gets added to the cart table
         `<tr>`+
         `<td>${_id}</td>`+
         `<td>${quantity}</td>`+
         `<td>${price}</td>`+
     `</tr>`
-    )
-    $("#tbody").append(item)
+    );
+
+    $("#tbody").append(item);
 }));
 
 let submitCart = $('#submitCartBt');
 
-editItemHandler(submitCart)
+submitCartHandler(submitCart)
 
-function editItemHandler(btn) {
-    /**This function handles the click event of the edit item form thats created above.
-     * It sends an ajax request to the server to update the item in the db. Upon successful PUT,
-     * it creates new html content with the updated item, removes the update item form,
-     *  and appends the updated item to the <section> html
+function submitCartHandler(btn) {
+    /**This function handles the submit cart event of the create shipment form.
+     * It sends an ajax request to the server to create a shipment. Upon successful creation,
+     * it will redirect the user to the shipments specific page.
      */
     btn.on('click', function (event) {
       //1. prevent default
@@ -49,7 +54,7 @@ function editItemHandler(btn) {
       });
       
       try{
-          //3. validate input here
+          //3. client side validations go here
         
         //4. send AJAX request to server
         $.ajax({
@@ -85,28 +90,5 @@ function editItemHandler(btn) {
         
     });
 };
-
-
-$("button").click(function () {
-    var id = $(this).attr("id");
-    let children = $("#row" + id).children();
-    if (children.length > 1) {
-      let itemData = {
-        _id: children[1].innerText,
-        name: children[2].innerText,
-        price: children[3].innerText,
-        quantity: children[4].innerText,
-      };
-      newHtml = $(
-          `<label></label>`+
-          `<input></input>`
-      )
-    
-
-
-    }
-
-});
-      //validatons
       
     

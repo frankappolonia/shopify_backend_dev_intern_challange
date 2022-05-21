@@ -1,27 +1,13 @@
-<h1>Inventory Home</h1>
+<h1>Shopify Backend Intern Challenge Fall 2022</h1>
+<h2>Author: Frank Appolonia</h2>
 
-<h2>Add new item to the inventory</h2>
-<form method="post" id="new-item-form">
-        <label for="name">Item name: </label>
-        <input type="text" id="name" name="name" required>
-        <label for="quantity">Price: </label>
-        <input type="number" id="price" name="price" step=".01" min="1" required>
-        <label for="quanity">Initital Quantity: </label>
-        <input type="number" id="quantity" name="quantity" min="1" required>
-        <Button type="submit">Add Item</Button>
-</form>
+<p>Hello and welcome to my web app! This app features a basic inventory management system using JavaScript,
+    Node.JS, Express.JS, and MongoDB Atlas. The inventory has the capibility to add new items, update or delete
+    existing items, and view a list of the current inventory available. </p>
 
-<h2>Current Inventory List:</h2>
-{{#if inventoryData}}
-<p>Click an item in the inventory to view pricing and quanity, or to update/delete the item.</p>
-        <ol id="inventory_results">
-            {{#each inventoryData}}
-            <li>
-                <a href="/item/{{this._id}}">{{this.name}} </a>
-            </li>
-            {{/each}}
-        </ol>
-        {{else}}
-        <p class="inventory-not-found">We're sorry, but the inventory is empty. Please add items.</p>
-{{/if}}
-
+<p>
+    In addition, the app features a shipments system. You can add existing inventory to a new shipment, and 
+    "submit" the shipment. Once a shipment is succsesfully submitted, the existing inventory is accordingly 
+    updated to account for items being "shipped" out. As a bonus, you can view a list of all previous
+    shipments made, as well as specfic details about the shipment.
+</p>

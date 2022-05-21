@@ -1,4 +1,3 @@
-const req = require('express/lib/request');
 const db = require('../config');
 const errorHandling = require('../helper');
 const inventoryFuncs = require('./inventory');
@@ -6,13 +5,14 @@ const validations = errorHandling.validations
 const shipments = db.shipmentsCollection;
 const { ObjectId } = require('mongodb');
 
+/**This file contains data functions for the sipments collection */
 
 async function createShipment(order){
-    /**Attempts to create a shipment (will throw error if appropriate quantity not available.) 
+    /**Attempts to create a shipment (will not submit if appropriate quantity not available, or other error caught) 
      * If successful, adds the shipment to the shipments collection
      * 
      * order is an array of objects, which have the following structure:
-     * {_id: id, name: name, quantity: quantity, price: price}
+     * {_id: id, quantity: quantity, price: price}
      */
 
     //1. validate input
@@ -60,24 +60,24 @@ async function submitShipment(order){
      * {_id: id, quantity: quantity, price: price} */
 
     //1. validate input
-    if (arguments.length !== 1) throw "Invalid number of arguments for submit shipment!"
+    if (arguments.length !== 1) throw "Invalid number of arguments for submit shipment!";
     order = validations.validateCreateShipment(order);
 
     //2. check that there is sufficient quantity for each item
-    console.log(order)
     for (let orderItem of order){
         let inventoryItem = await inventoryFuncs.getItem(orderItem._id);
         if (inventoryItem === null) throw "Error! That item does not exist in the inventory!";
+
+        orderItem.name = inventoryItem.name; //adds the item name to the order object
     
-        if(orderItem.quantity > inventoryItem.quantity){
+        if(orderItem.quantity > inventoryItem.quantity){ //checks if there is enough quantity in inventory for the shipment
             throw `Error! Shipment quantity for ${orderItem.name} exceeds available quantity in current inventory!`;
         }
-        orderItem.name = inventoryItem.name;
         orderItem.newQuantity = inventoryItem.quantity - orderItem.quantity; //temp variable to store the updated inventory quantity
     };
 
 
-    //3. adjust inventory to account for shipment
+    //3. Once it is checked that enough inventory is available, inventory is then adjusted to account for shipment
     for (let orderItem of order){
         await inventoryFuncs.updateItem(orderItem._id, orderItem.name, orderItem.newQuantity, orderItem.price);
         delete orderItem.newQuantity; //remove the temp variable after updating inventory quantity
@@ -103,7 +103,7 @@ async function getAllShipments(){
 
     //4. format each item document's objectID to a regular string (this is for when the data is sent in the get route)
     allShipments.forEach(itemObj =>{ 
-        itemObj['_id'] = itemObj["_id"].toString()
+        itemObj['_id'] = itemObj["_id"].toString();
     });
 
     //5. return the array of items

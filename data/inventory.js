@@ -139,8 +139,6 @@ async function getAllItems(){
 
 };
 
-
-
 module.exports = {
     createItem,
     updateItem,
